@@ -253,6 +253,7 @@ function updateConversation(conversation_id, conversation) {
 function conversationParseRequest(req, res, next) {
   try {
     logger.winston.info("Routing to Model Rasa Parse Request -> " + global.rasa_endpoint + "/conversations/" + req.body.conversation_id + "/messages");
+    logger.winston.info(JSON.stringify(req.body));
     request({ method: 'POST', uri: global.rasa_endpoint + "/conversations/" + req.body.conversation_id + "/messages", body: JSON.stringify(req.body) },
       function (err, response, body) {
         try {
@@ -262,7 +263,8 @@ function conversationParseRequest(req, res, next) {
               server_response: body,
               query: req.body.q
             });
-
+            logger.winston.info("Routing to Model Rasa Parse Request -> " + global.rasa_endpoint + "/conversations/" + req.body.conversation_id + "/predict");
+            logger.winston.info(JSON.stringify(req.body));
           request({ method: 'POST', uri: global.rasa_endpoint + "/conversations/" + req.body.conversation_id + "/predict", body: JSON.stringify(req.body) }, function (err, response, predict_body) {
             updateConversation(req.body.conversation_id, predict_body);
             sendOutput(200, res, predict_body);
@@ -279,6 +281,7 @@ function conversationParseRequest(req, res, next) {
 
 function runActionInConversation(req, res, next) {
   logger.winston.info("Rasa Core Run Action Request -> " + global.rasa_endpoint + "/conversations/" + req.body.conversation_id + "/execute");
+  logger.winston.info(JSON.stringify(req.body.action));
   try {
     request({ method: "POST", uri: global.rasa_endpoint + "/conversations/" + req.body.conversation_id + "/execute", body: JSON.stringify(req.body.action) }, function (err, response, execute_body) {
       if (err) {
