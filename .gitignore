@@ -7,4 +7,4 @@ server/data/db.sqlite3
 .idea
 *.swp
 *.iml
-
+db.sqlite3
