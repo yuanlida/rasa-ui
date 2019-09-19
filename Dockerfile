@@ -9,7 +9,7 @@ FROM mhart/alpine-node:10
 RUN apk add --no-cache make gcc g++ python
 
 ENV http_port=5001
-ENV rasa_endpoint "http://localhost:5005"
+ENV rasa_endpoint "https://cp.stag.easilydo.cc/api/rasa"
 ENV jwtsecret "mysecret"
 ENV loglevel "info"
 ENV admin_username "admin"
